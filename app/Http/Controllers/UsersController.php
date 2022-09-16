@@ -45,6 +45,7 @@ class UsersController extends Controller
 
         $user = Users::create($data);
         auth()->login($user);
+        
     }
 
     public function edit(Users $user)
@@ -74,5 +75,35 @@ class UsersController extends Controller
     {
         $user->delete();
         return redirect('/');
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
+
+    public function login()
+    {
+        return view('users.login');
+    }
+
+    public function authenticate(Request $request)
+    {
+        $data = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (auth()->attempt($data)) {
+            $request->session()->regenerate();
+            $request->session()->regenerate();
+            return redirect('/');
+        }
+
+        return back()->withErrors(["username" => "Incorrect Username/Password"]);
+
     }
 }

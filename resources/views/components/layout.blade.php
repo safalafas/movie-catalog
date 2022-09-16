@@ -9,6 +9,10 @@
 </head>
 
 <body>
+    @auth
+        Welcome {{auth()->user()->name}}
+        @include('partials._formLogout');
+    @endauth
     {{ $slot }}
 </body>
 
