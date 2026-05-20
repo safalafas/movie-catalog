@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //Get Requests
 
-Route::get('/', [MoviesController::class, 'index']);
+Route::get('/', [MoviesController::class, 'index'])->middleware('auth');
 
 Route::get('/movies', function () {
     return redirect('/');
@@ -26,7 +26,7 @@ Route::get('/movies', function () {
 
 Route::get('/movies/create', [MoviesController::class, 'create'])->middleware('auth');
 
-Route::get('/movies/{movie}', [MoviesController::class, 'show']);
+Route::get('/movies/{movie}', [MoviesController::class, 'show'])->middleware('auth');
 
 Route::get('/movies/{movie}/edit', [MoviesController::class, 'edit'])->middleware('auth');
 
@@ -58,6 +58,6 @@ Route::post('/logout', [UsersController::class, 'logout'])->middleware('auth');
 
 Route::post('/users/authenticate', [UsersController::class, 'authenticate'])->middleware('guest');
 
-Route::post('/like', [MoviesUsersController::class, 'store']);
+Route::post('/like', [MoviesUsersController::class, 'store'])->middleware('auth');
 
-Route::delete('/dislike', [MoviesUsersController::class, 'destroy']);
+Route::delete('/dislike', [MoviesUsersController::class, 'destroy'])->middleware('auth');

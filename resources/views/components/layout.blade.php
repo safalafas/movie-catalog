@@ -21,8 +21,8 @@
                 <span class="logo-pop">Movie</span>Catalog
             </a>
             <nav class="app-nav">
-                <a href="/" class="nav-link {{ request()->is('/') ? 'active' : '' }}">Movies</a>
                 @auth
+                    <a href="/" class="nav-link {{ request()->is('/') ? 'active' : '' }}">Movies</a>
                     <a href="/users" class="nav-link {{ request()->is('users') ? 'active' : '' }}">Users</a>
                     <a href="/movies/create" class="nav-link {{ request()->is('movies/create') ? 'active' : '' }}">Add Movie</a>
                 @endauth

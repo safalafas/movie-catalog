@@ -46,7 +46,6 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">Register</button>
-                    <a href="/" class="btn-secondary">Cancel</a>
                 </div>
             </form>
             <p class="form-footer">Already have an account? <a href="/login">Log In</a></p>

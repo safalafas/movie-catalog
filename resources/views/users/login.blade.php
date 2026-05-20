@@ -25,7 +25,6 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">Log In</button>
-                    <a href="/" class="btn-secondary">Cancel</a>
                 </div>
             </form>
             <p class="form-footer">Don't have an account? <a href="/register">Sign Up</a></p>
