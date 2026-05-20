@@ -40,12 +40,12 @@ class UsersController extends Controller
         );
         $data['password'] = bcrypt($data['password']);
         if ($request->hasFile('profile_picture')) {
-            $data['profile_picture'] = $request->file('profile_picture')->store('pictures', 'local');
+            $data['profile_picture'] = $request->file('profile_picture')->store('pictures', 'public');
         }
 
         $user = Users::create($data);
         auth()->login($user);
-        
+        return redirect('/');
     }
 
     public function edit(Users $user)
@@ -55,16 +55,25 @@ class UsersController extends Controller
 
     public function update(Request $request, Users $user)
     {
-        $data = $request->validate(
-            [
-                'username' => ['required'],
-                'password' => 'required|confirmed|min:8',
-                'email' => ['required', 'email'],
-            ]
-        );
-        $data['password'] = bcrypt($data['password']);
+        $rules = [
+            'username' => ['required', Rule::unique('users', 'username')->ignore($user->id)],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+        ];
+
+        if ($request->filled('password')) {
+            $rules['password'] = ['confirmed', 'min:8'];
+        }
+
+        $data = $request->validate($rules);
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
         if ($request->hasFile('profile_picture')) {
-            $data['profile_picture'] = $request->file('profile_picture')->store('pictures', 'local');
+            $data['profile_picture'] = $request->file('profile_picture')->store('pictures', 'public');
         }
 
         $user->update($data);
